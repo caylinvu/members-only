@@ -44,7 +44,7 @@ exports.sign_up_post = [
     .withMessage(
       'Password must contain at least 8 characters and include the following: 1 uppercase, 1 lowercase, 1 number, and 1 special character',
     ),
-  body('password-confirmation')
+  body('password_confirmation')
     .trim()
     .isLength({ min: 1 })
     .withMessage('Password confirmation is required')
@@ -65,6 +65,7 @@ exports.sign_up_post = [
     if (!errors.isEmpty()) {
       res.render('sign-up-form', {
         user: user,
+        password_conf: req.body.password_confirmation,
         errors: errors.array(),
       });
     } else {
