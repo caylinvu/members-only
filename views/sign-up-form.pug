@@ -1,0 +1,26 @@
+extends layout 
+
+block content 
+  h1 Sign up
+  form(action='' method='POST')
+    div
+      label(for='first_name') First name 
+      input#first_name(type='text' name='first_name' value=(user===undefined ? '' : user.first_name))
+    div
+      label(for='last_name') Last name 
+      input#last_name(type='text' name='last_name' value=(user===undefined ? '' : user.last_name))
+    div 
+      label(for='email') Email
+      input#email(type='text' name='email' value=(user===undefined ? '' : user.email))
+    div 
+      label(for='password') Password 
+      input#password(type='password' name='password' value=(user===undefined ? '' : user.password))
+    div
+      label(for='password_confirmation') Confirm password 
+      input#password_confirmation(type='password' name='password_confirmation' value=(password_conf===undefined ? '' : password_conf))
+    button(type='submit') Sign up 
+
+  if errors 
+    ul 
+      for error in errors 
+        li!= error.msg

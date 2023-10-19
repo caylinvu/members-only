@@ -16,7 +16,7 @@ exports.sign_up_post = [
     .trim()
     .isLength({ min: 1 })
     .withMessage('Email address is required')
-    // maybe add .bail() here
+    .bail()
     .isEmail()
     .withMessage('Please enter valid email address')
     .custom(
@@ -34,6 +34,7 @@ exports.sign_up_post = [
     .trim()
     .isLength({ min: 1 })
     .withMessage('Password is required')
+    .bail()
     .isStrongPassword({
       minLength: 8,
       minLowercase: 1,
@@ -48,6 +49,7 @@ exports.sign_up_post = [
     .trim()
     .isLength({ min: 1 })
     .withMessage('Password confirmation is required')
+    .bail()
     .custom((value, { req }) => {
       return value === req.body.password;
     })
