@@ -6,8 +6,11 @@ const logger = require('morgan');
 const session = require('express-session');
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
+const asyncHandler = require('express-async-handler');
+const bcrypt = require('bcryptjs');
 require('dotenv').config();
 
+const User = require('./models/user');
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 
@@ -27,6 +30,36 @@ async function main() {
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
+passport.use(
+  new LocalStrategy(
+    asyncHandler(async (email, password, done) => {
+      const user = await User.findOne({ email: email });
+      if (!user) {
+        return done(null, false, { message: 'Incorrect email' });
+      }
+      const match = await bcrypt.compare(password, user.password);
+      if (!match) {
+        return done(null, false, { message: 'Incorrect password' });
+      }
+      return done(null, user);
+    }),
+  ),
+);
+
+passport.serializeUser((user, done) => {
+  done(null, user.id);
+});
+
+passport.deserializeUser(
+  asyncHandler(async (id, done) => {
+    const user = await User.findById(id);
+    done(null, user);
+  }),
+);
+
+app.use(session({ secret: 'cats', resave: false, saveUninitialized: true }));
+app.use(passport.initialize());
+app.use(passport.session());
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));

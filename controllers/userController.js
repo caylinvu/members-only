@@ -21,15 +21,14 @@ exports.sign_up_post = [
     .withMessage('Please enter valid email address')
     .custom(
       asyncHandler(async (value) => {
-        const user = await User.findOne({ email: value }).exec();
+        const user = await User.findOne({ email: value });
         if (user) {
-          return false;
+          throw new Error('Email address already in use');
         } else {
           return true;
         }
       }),
-    )
-    .withMessage('Email address already in use'),
+    ),
   body('password')
     .trim()
     .isLength({ min: 1 })
@@ -74,7 +73,7 @@ exports.sign_up_post = [
       bcrypt.hash(
         req.body.password,
         10,
-        asyncHandler(async (hashedPassword) => {
+        asyncHandler(async (err, hashedPassword) => {
           user.password = hashedPassword;
           await user.save();
           res.redirect('/');
