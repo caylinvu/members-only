@@ -7,6 +7,7 @@ exports.new_message_get = (req, res, next) => {
   if (req.user) {
     res.render('message-form', {
       title: 'New message',
+      user: req.user,
     });
   } else {
     res.redirect('/');
@@ -29,6 +30,7 @@ exports.new_message_post = [
     if (!errors.isEmpty()) {
       res.render('message-form', {
         title: 'New message',
+        user: req.user,
         message: message,
         errors: errors.array(),
       });
