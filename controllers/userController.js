@@ -82,3 +82,30 @@ exports.sign_up_post = [
     }
   }),
 ];
+
+exports.become_member_get = (req, res, next) => {
+  res.render('member-form');
+};
+
+exports.become_member_post = [
+  body('member_password')
+    .custom((value, { req }) => {
+      return value === process.env.member_pw;
+    })
+    .withMessage('Incorrect password'),
+  asyncHandler(async (req, res, next) => {
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      res.render('member-form', {
+        member_pass: req.body.member_password,
+        errors: errors.array(),
+      });
+    } else {
+      const user = req.user;
+      user.member_status = true;
+      await user.save();
+      res.redirect('/');
+    }
+  }),
+];
