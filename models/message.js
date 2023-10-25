@@ -11,7 +11,7 @@ const MessageSchema = new Schema({
 });
 
 MessageSchema.virtual('relative_timestamp').get(function () {
-  return DateTime.fromISO(this.timestamp).toRelative();
+  return DateTime.fromJSDate(this.timestamp).toRelative();
 });
 
 module.exports = mongoose.model('Message', MessageSchema);

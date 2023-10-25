@@ -2,6 +2,17 @@ const Message = require('../models/message');
 const asyncHandler = require('express-async-handler');
 const { body, validationResult } = require('express-validator');
 
+// Display home page on GET
+exports.index = asyncHandler(async (req, res, next) => {
+  const allMessages = await Message.find().populate('user').exec();
+
+  res.render('index', {
+    title: 'Members Only',
+    user: req.user,
+    messages: allMessages,
+  });
+});
+
 // Display new message page on GET
 exports.new_message_get = (req, res, next) => {
   if (req.user) {

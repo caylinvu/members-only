@@ -4,5 +4,16 @@ block content
   if user
     h1 Hello #{user.full_name}
   else
-    h1= title
-    p Welcome to #{title}
+    h1 Welcome to MembersOnly
+    p Please sign in to post new messages
+  each message in messages 
+    div 
+      h3 #{message.title}
+      p #{message.text}
+      if user && user.member_status
+        p by #[strong #{message.user.full_name}]
+        p #[em #{message.relative_timestamp}]
+      else 
+        p by #[strong Anonymous]
+  else 
+    h3 No messages currently posted

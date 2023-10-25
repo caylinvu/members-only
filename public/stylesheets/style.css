@@ -10,3 +10,7 @@ body {
 a {
   color: #8400ff;
 }
+
+textarea {
+  font-family: inherit;
+}
