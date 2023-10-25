@@ -5,7 +5,10 @@ const { body, validationResult } = require('express-validator');
 
 // Display sign up page on GET
 exports.sign_up_get = (req, res, next) => {
-  res.render('sign-up-form');
+  res.render('sign-up-form', {
+    title: 'Sign up',
+    user: req.user,
+  });
 };
 
 // Handle sign up on POST
@@ -65,6 +68,7 @@ exports.sign_up_post = [
 
     if (!errors.isEmpty()) {
       res.render('sign-up-form', {
+        title: 'Sign up',
         user: user,
         password_conf: req.body.password_confirmation,
         errors: errors.array(),
@@ -84,7 +88,13 @@ exports.sign_up_post = [
 ];
 
 exports.become_member_get = (req, res, next) => {
-  res.render('member-form');
+  if (req.user) {
+    res.render('member-form', {
+      title: 'Become a member',
+    });
+  } else {
+    res.redirect('/');
+  }
 };
 
 exports.become_member_post = [
@@ -98,6 +108,7 @@ exports.become_member_post = [
 
     if (!errors.isEmpty()) {
       res.render('member-form', {
+        title: 'Become a member',
         member_pass: req.body.member_password,
         errors: errors.array(),
       });
