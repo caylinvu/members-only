@@ -3,12 +3,13 @@ const router = express.Router();
 
 // Require controller modules
 const userController = require('../controllers/userController');
+const messageController = require('../controllers/messageController');
 
 // GET home page
 router.get('/', function (req, res, next) {
   console.log(req.user);
   res.render('index', {
-    title: "Member's Only",
+    title: 'Members Only',
     user: req.user,
   });
 });
@@ -30,5 +31,11 @@ router.get('/become-member', userController.become_member_get);
 
 // POST become member page
 router.post('/become-member', userController.become_member_post);
+
+// GET new message page
+router.get('/new-message', messageController.new_message_get);
+
+// POST new message page
+router.post('/new-message', messageController.new_message_post);
 
 module.exports = router;
