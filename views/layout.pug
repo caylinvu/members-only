@@ -7,15 +7,17 @@ html
     nav(style='display:flex;justify-content:space-between;align-items:center')
       div 
         a(href='/')
-          h1 MembersOnly 
+          h1(style='text-decoration:none') MembersOnly 
       if user
         div(style='display:flex;gap:15px')
           a(href='/new-message')
-            button(type='button') New Message 
-          a(href='/become-member')
-            button(type='button') Become a Member 
-          a(href='/become-admin')
-            button(type='button') Become an Admin 
+            button(type='button') New Message
+          if !user.member_status
+            a(href='/become-member')
+              button(type='button') Become a Member
+          if !user.admin_status
+            a(href='/become-admin')
+              button(type='button') Become an Admin 
           a(href='/log-out')
             button(type='button') Log out
       else 
