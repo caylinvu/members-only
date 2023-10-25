@@ -1,0 +1,16 @@
+extends layout 
+
+block content
+  h1 Become a member 
+  p Enter the secret password to gain member status
+  p Hint: ************
+  form(action='' method='POST')
+    div 
+      label(for='member_password') Password 
+      input#member_password(type='password' name='member_password' value=(member_pass===undefined ? '' : member_pass))
+    button(type='submit') Submit 
+  
+  if errors 
+    ul 
+      for error in errors 
+        li!= error.msg
