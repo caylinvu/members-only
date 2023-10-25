@@ -19,11 +19,11 @@ router.get('/sign-up', userController.sign_up_get);
 // POST sign up page
 router.post('/sign-up', userController.sign_up_post);
 
-// GET log in page
-router.post('/log-in', userController.log_in_get);
+// // GET log in page
+// router.get('/log-in', userController.log_in_get);
 
-// POST log in page
-router.post('/log-in', userController.log_in_post);
+// // POST log in page
+// router.post('/log-in', userController.log_in_post);
 
 // GET become member page
 router.get('/become-member', userController.become_member_get);

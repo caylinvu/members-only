@@ -1,0 +1,17 @@
+extends layout 
+
+block content 
+  h1 Log in
+  form(action='/log-in' method='POST')
+    div
+      label(for='username') Email 
+      input#username(type='text' name='username')
+    div 
+      label(for='password') Password 
+      input#password(type='password' name='password')
+    button(type='submit') Log in 
+
+  if errors 
+    ul 
+      for errors in errors 
+        li!= error.msg

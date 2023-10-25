@@ -6,14 +6,11 @@ const logger = require('morgan');
 const session = require('express-session');
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
-const asyncHandler = require('express-async-handler');
 const bcrypt = require('bcryptjs');
 require('dotenv').config();
 
 const User = require('./models/user');
 const indexRouter = require('./routes/index');
-
-const app = express();
 
 // mongoose connection setup
 const mongoose = require('mongoose');
@@ -25,14 +22,18 @@ async function main() {
   await mongoose.connect(mongoDB);
 }
 
+const app = express();
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
+app.use(session({ secret: 'cats', resave: false, saveUninitialized: true }));
+
 passport.use(
-  new LocalStrategy(
-    asyncHandler(async (email, password, done) => {
-      const user = await User.findOne({ email: email });
+  new LocalStrategy(async (username, password, done) => {
+    try {
+      const user = await User.findOne({ email: username });
       if (!user) {
         return done(null, false, { message: 'Incorrect email' });
       }
@@ -41,22 +42,25 @@ passport.use(
         return done(null, false, { message: 'Incorrect password' });
       }
       return done(null, user);
-    }),
-  ),
+    } catch (err) {
+      return done(err);
+    }
+  }),
 );
 
 passport.serializeUser((user, done) => {
   done(null, user.id);
 });
 
-passport.deserializeUser(
-  asyncHandler(async (id, done) => {
+passport.deserializeUser(async (id, done) => {
+  try {
     const user = await User.findById(id);
     done(null, user);
-  }),
-);
+  } catch (err) {
+    done(err);
+  }
+});
 
-app.use(session({ secret: 'cats', resave: false, saveUninitialized: true }));
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(logger('dev'));
@@ -66,6 +70,26 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
+
+// Display log in page on GET
+app.get('/log-in', (req, res, next) => {
+  if (!req.user) {
+    res.render('log-in-form', {
+      title: 'Log in',
+    });
+  } else {
+    res.redirect('/');
+  }
+});
+
+// Handle log in on POST
+app.post(
+  '/log-in',
+  passport.authenticate('local', {
+    successRedirect: '/',
+    failureRedirect: '/log-in',
+  }),
+);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
