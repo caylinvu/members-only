@@ -4,4 +4,24 @@ html
     title= title
     link(rel='stylesheet', href='/stylesheets/style.css')
   body
+    nav(style='display:flex;justify-content:space-between;align-items:center')
+      div 
+        a(href='/')
+          h1 MembersOnly 
+      if user
+        div(style='display:flex;gap:15px')
+          a(href='/new-message')
+            button(type='button') New Message 
+          a(href='/become-member')
+            button(type='button') Become a Member 
+          a(href='/become-admin')
+            button(type='button') Become an Admin 
+          a(href='/log-out')
+            button(type='button') Log out
+      else 
+        div(style='display:flex;gap:15px')
+          a(href='/sign-up')
+            button(type='button') Sign up 
+          a(href='/log-in')
+            button(type='button') Log in 
     block content

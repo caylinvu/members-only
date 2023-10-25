@@ -6,7 +6,11 @@ const userController = require('../controllers/userController');
 
 // GET home page
 router.get('/', function (req, res, next) {
-  res.render('index', { title: "Member's Only" });
+  console.log(req.user);
+  res.render('index', {
+    title: "Member's Only",
+    user: req.user,
+  });
 });
 
 // GET sign up page
