@@ -1,14 +1,18 @@
 const User = require('../models/user');
 const asyncHandler = require('express-async-handler');
 const bcrypt = require('bcryptjs');
+const passport = require('passport');
 const { body, validationResult } = require('express-validator');
 
 // Display sign up page on GET
 exports.sign_up_get = (req, res, next) => {
-  res.render('sign-up-form', {
-    title: 'Sign up',
-    user: req.user,
-  });
+  if (!req.user) {
+    res.render('sign-up-form', {
+      title: 'Sign up',
+    });
+  } else {
+    res.redirect('/');
+  }
 };
 
 // Handle sign up on POST
@@ -87,6 +91,26 @@ exports.sign_up_post = [
   }),
 ];
 
+// Display log in page on GET
+exports.log_in_get = (req, res, next) => {
+  if (!req.user) {
+    res.render('log-in-form', {
+      title: 'Log in',
+    });
+  } else {
+    res.redirect('/');
+  }
+};
+
+// Handle log in on POST
+exports.log_in_post = () => {
+  passport.authenticate('local', {
+    successRedirect: '/',
+    failureRedirect: '/',
+  });
+};
+
+// Display become member page on GET
 exports.become_member_get = (req, res, next) => {
   if (req.user) {
     res.render('member-form', {
@@ -97,6 +121,7 @@ exports.become_member_get = (req, res, next) => {
   }
 };
 
+// Handle become member on POST
 exports.become_member_post = [
   body('member_password')
     .custom((value, { req }) => {
