@@ -26,6 +26,12 @@ router.get('/become-member', userController.become_member_get);
 // POST become member page
 router.post('/become-member', userController.become_member_post);
 
+// GET become admin page
+router.get('/become-admin', userController.become_admin_get);
+
+// POST become admin page
+router.post('/become-admin', userController.become_admin_post);
+
 // GET new message page
 router.get('/new-message', messageController.new_message_get);
 

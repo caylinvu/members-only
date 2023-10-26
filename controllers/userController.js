@@ -144,3 +144,40 @@ exports.become_member_post = [
     }
   }),
 ];
+
+// Display become admin page on GET
+exports.become_admin_get = (req, res, next) => {
+  if (req.user) {
+    res.render('admin-form', {
+      title: 'Become an admin',
+    });
+  } else {
+    res.redirect('/');
+  }
+};
+
+// Handle become member on POST
+exports.become_admin_post = [
+  body('admin_password')
+    .custom((value, { req }) => {
+      return value === process.env.admin_pw;
+    })
+    .withMessage('Incorrect password'),
+  asyncHandler(async (req, res, next) => {
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      res.render('admin-form', {
+        title: 'Become an admin',
+        admin_pass: req.body.admin_password,
+        errors: errors.array(),
+      });
+    } else {
+      const user = req.user;
+      user.member_status = true;
+      user.admin_status = true;
+      await user.save();
+      res.redirect('/');
+    }
+  }),
+];
