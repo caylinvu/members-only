@@ -5,13 +5,16 @@ block content
   form(action='/log-in' method='POST')
     div
       label(for='username') Email 
-      input#username(type='text' name='username')
+      input#username(type='text' name='username' value=(username===undefined ? '' : username))
     div 
       label(for='password') Password 
-      input#password(type='password' name='password')
+      input#password(type='password' name='password' value=(password===undefined ? '' : password))
     button(type='submit') Log in 
 
   if errors 
     ul 
-      for errors in errors 
+      for error in errors 
         li!= error.msg
+
+  if failureMessage
+    p #{failureMessage}
