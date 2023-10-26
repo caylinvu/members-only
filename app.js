@@ -131,8 +131,9 @@ app.post(
         password: req.body.password,
         errors: errors.array(),
       });
+    } else {
+      next();
     }
-    next();
   },
   passport.authenticate('local', {
     successRedirect: '/',
@@ -169,6 +170,8 @@ app.use(function (err, req, res, next) {
 module.exports = app;
 
 // REMAINING TO DO
+
+// require password for admin and member forms
 
 // maybe figure out how to use passport within controller functions?
 

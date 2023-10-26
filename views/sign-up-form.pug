@@ -6,21 +6,36 @@ block content
     div
       label(for='first_name') First name 
       input#first_name(type='text' name='first_name' value=(user===undefined ? '' : user.first_name))
+      if errors 
+        for error in errors 
+          if error.path == 'first_name'
+            span= error.msg
     div
       label(for='last_name') Last name 
       input#last_name(type='text' name='last_name' value=(user===undefined ? '' : user.last_name))
+      if errors 
+        for error in errors 
+          if error.path == 'last_name'
+            span= error.msg
     div 
       label(for='email') Email
       input#email(type='text' name='email' value=(user===undefined ? '' : user.email))
+      if errors 
+        for error in errors 
+          if error.path == 'email'
+            span= error.msg
     div 
       label(for='password') Password 
       input#password(type='password' name='password' value=(user===undefined ? '' : user.password))
+      if errors 
+        for error in errors 
+          if error.path == 'password'
+            span= error.msg
     div
       label(for='password_confirmation') Confirm password 
       input#password_confirmation(type='password' name='password_confirmation' value=(password_conf===undefined ? '' : password_conf))
+      if errors 
+        for error in errors 
+          if error.path == 'password_confirmation'
+            span= error.msg
     button(type='submit') Sign up 
-
-  if errors 
-    ul 
-      for error in errors 
-        li!= error.msg
