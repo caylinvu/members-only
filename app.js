@@ -118,3 +118,19 @@ app.use(function (err, req, res, next) {
 });
 
 module.exports = app;
+
+// REMAINING TO DO
+
+// add form errors for logging in
+
+// sanitize login data???
+
+// automatically login when you sign up
+
+// show user status
+
+// figure out how to show form errors next to correct field
+
+// maybe figure out how to use passport within controller functions?
+
+// STYLE EVERYTHING
