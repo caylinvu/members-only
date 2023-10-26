@@ -6,15 +6,18 @@ block content
     div
       label(for='username') Email 
       input#username(type='text' name='username' value=(username===undefined ? '' : username))
+      if errors 
+        for error in errors 
+          if error.path == 'username'
+            span= error.msg
     div 
       label(for='password') Password 
       input#password(type='password' name='password' value=(password===undefined ? '' : password))
+      if errors 
+        for error in errors 
+          if error.path == 'password'
+            span= error.msg
     button(type='submit') Log in 
-
-  if errors 
-    ul 
-      for error in errors 
-        li!= error.msg
 
   if failureMessage
     p #{failureMessage}

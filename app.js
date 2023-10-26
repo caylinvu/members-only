@@ -7,6 +7,7 @@ const session = require('express-session');
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const bcrypt = require('bcryptjs');
+const asyncHandler = require('express-async-handler');
 const { body, validationResult } = require('express-validator');
 require('dotenv').config();
 
@@ -77,9 +78,6 @@ app.get('/log-in', (req, res, next) => {
   if (!req.user) {
     res.render('log-in-form', {
       title: 'Log in',
-      failureMessage: req.session.messages
-        ? req.session.messages[req.session.messages.length - 1]
-        : '',
     });
   } else {
     res.redirect('/');
@@ -91,11 +89,39 @@ app.post(
   '/log-in',
   body('username')
     .isLength({ min: 1 })
-    .withMessage('Email is required')
+    .withMessage('Email address is required')
     .bail()
     .isEmail()
-    .withMessage('Please enter valid email address'),
-  body('password', 'Password is required').isLength({ min: 1 }),
+    .withMessage('Please enter valid email address')
+    .bail()
+    .custom(
+      asyncHandler(async (value) => {
+        const user = await User.findOne({ email: value });
+        if (!user) {
+          throw new Error('Email address does not exist');
+        } else {
+          return true;
+        }
+      }),
+    ),
+  body('password')
+    .isLength({ min: 1 })
+    .withMessage('Password is required')
+    .bail()
+    .custom(
+      asyncHandler(async (value, { req }) => {
+        const user = await User.findOne({ email: req.body.username });
+        if (!user) {
+          return true;
+        }
+        const match = await bcrypt.compare(value, user.password);
+        if (!match) {
+          throw new Error('Incorrect password');
+        } else {
+          return true;
+        }
+      }),
+    ),
   (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -111,7 +137,6 @@ app.post(
   passport.authenticate('local', {
     successRedirect: '/',
     failureRedirect: '/log-in',
-    failureMessage: true,
   }),
 );
 
@@ -144,8 +169,6 @@ app.use(function (err, req, res, next) {
 module.exports = app;
 
 // REMAINING TO DO
-
-// figure out how to show form errors next to correct field
 
 // maybe figure out how to use passport within controller functions?
 
