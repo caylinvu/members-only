@@ -2,7 +2,14 @@ extends layout
 
 block content
   if current_user
-    h1 Hello #{current_user.full_name}
+    h1 Hello #{current_user.full_name} 
+    h2 #[em (Membership Status: ]
+      if current_user.admin_status 
+        | #[em admin)]
+      else if current_user.member_status 
+        | #[em member)]
+      else 
+        | #[em none)]
   else
     h1 Welcome to MembersOnly
     p Please sign in to post new messages

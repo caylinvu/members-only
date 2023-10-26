@@ -145,10 +145,6 @@ module.exports = app;
 
 // REMAINING TO DO
 
-// automatically login when you sign up
-
-// show user status
-
 // figure out how to show form errors next to correct field
 
 // maybe figure out how to use passport within controller functions?
