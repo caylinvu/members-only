@@ -4,7 +4,7 @@ const { body, validationResult } = require('express-validator');
 
 // Display home page on GET
 exports.index = asyncHandler(async (req, res, next) => {
-  const allMessages = await Message.find().populate('user').exec();
+  const allMessages = await Message.find().sort({ timestamp: -1 }).populate('user').exec();
 
   res.render('index', {
     title: 'Members Only',
