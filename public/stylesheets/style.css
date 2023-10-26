@@ -14,3 +14,12 @@ a {
 textarea {
   font-family: inherit;
 }
+
+.delete {
+  padding: 0;
+}
+
+.delete img {
+  width: 20px;
+  vertical-align: middle;
+}

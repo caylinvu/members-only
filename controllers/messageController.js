@@ -52,3 +52,9 @@ exports.new_message_post = [
     }
   }),
 ];
+
+// Handle delete message on GET
+exports.delete_message_post = asyncHandler(async (req, res, next) => {
+  await Message.findByIdAndRemove(req.body.message_id);
+  res.redirect('/');
+});

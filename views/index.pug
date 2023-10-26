@@ -15,5 +15,10 @@ block content
         p #[em #{message.relative_timestamp}]
       else 
         p by #[strong Anonymous]
+      if user && user.admin_status 
+        form(action='/delete-message' method='POST')
+          input#message_id(type='hidden' name='message_id' required='true' value=message._id)
+          button.delete(type='submit')
+            img(src='/images/trash.svg', alt='') 
   else 
     h3 No messages currently posted
