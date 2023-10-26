@@ -83,7 +83,12 @@ exports.sign_up_post = [
         asyncHandler(async (err, hashedPassword) => {
           user.password = hashedPassword;
           await user.save();
-          res.redirect('/');
+          req.login(user, function (err) {
+            if (err) {
+              return next(err);
+            }
+            res.redirect('/');
+          });
         }),
       );
     }
@@ -114,7 +119,7 @@ exports.become_member_get = (req, res, next) => {
   if (req.user && !req.user.member_status) {
     res.render('member-form', {
       title: 'Become a member',
-      user: req.user,
+      current_user: req.user,
     });
   } else {
     res.redirect('/');
@@ -134,7 +139,7 @@ exports.become_member_post = [
     if (!errors.isEmpty()) {
       res.render('member-form', {
         title: 'Become a member',
-        user: req.user,
+        current_user: req.user,
         member_pass: req.body.member_password,
         errors: errors.array(),
       });
@@ -152,7 +157,7 @@ exports.become_admin_get = (req, res, next) => {
   if (req.user && !req.user.admin_status) {
     res.render('admin-form', {
       title: 'Become an admin',
-      user: req.user,
+      current_user: req.user,
     });
   } else {
     res.redirect('/');
@@ -172,7 +177,7 @@ exports.become_admin_post = [
     if (!errors.isEmpty()) {
       res.render('admin-form', {
         title: 'Become an admin',
-        user: req.user,
+        current_user: req.user,
         admin_pass: req.body.admin_password,
         errors: errors.array(),
       });

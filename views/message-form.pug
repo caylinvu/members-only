@@ -2,7 +2,7 @@ extends layout
 
 block content 
   h1 New message 
-  p Hi #{user.first_name}
+  p Hi #{current_user.first_name}
   p What's on your mind?
   form(action='' method='POST')
     div 

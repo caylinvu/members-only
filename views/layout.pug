@@ -8,14 +8,14 @@ html
       div 
         a(href='/' style='text-decoration:none')
           h1 MembersOnly 
-      if user
+      if current_user
         div(style='display:flex;gap:15px')
           a(href='/new-message')
             button(type='button') New Message
-          if !user.member_status
+          if !current_user.member_status
             a(href='/become-member')
               button(type='button') Become a Member
-          if !user.admin_status
+          if !current_user.admin_status
             a(href='/become-admin')
               button(type='button') Become an Admin 
           a(href='/log-out')

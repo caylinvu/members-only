@@ -8,7 +8,7 @@ exports.index = asyncHandler(async (req, res, next) => {
 
   res.render('index', {
     title: 'Members Only',
-    user: req.user,
+    current_user: req.user,
     messages: allMessages,
   });
 });
@@ -18,7 +18,7 @@ exports.new_message_get = (req, res, next) => {
   if (req.user) {
     res.render('message-form', {
       title: 'New message',
-      user: req.user,
+      current_user: req.user,
     });
   } else {
     res.redirect('/');
@@ -41,7 +41,7 @@ exports.new_message_post = [
     if (!errors.isEmpty()) {
       res.render('message-form', {
         title: 'New message',
-        user: req.user,
+        current_user: req.user,
         message: message,
         errors: errors.array(),
       });

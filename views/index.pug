@@ -1,8 +1,8 @@
 extends layout
 
 block content
-  if user
-    h1 Hello #{user.full_name}
+  if current_user
+    h1 Hello #{current_user.full_name}
   else
     h1 Welcome to MembersOnly
     p Please sign in to post new messages
@@ -10,12 +10,12 @@ block content
     div 
       h3 #{message.title}
       p #{message.text}
-      if user && user.member_status
+      if current_user && current_user.member_status
         p by #[strong #{message.user.full_name}]
         p #[em #{message.relative_timestamp}]
       else 
         p by #[strong Anonymous]
-      if user && user.admin_status 
+      if current_user && current_user.admin_status 
         form(action='/delete-message' method='POST')
           input#message_id(type='hidden' name='message_id' required='true' value=message._id)
           button.delete(type='submit')

@@ -145,8 +145,6 @@ module.exports = app;
 
 // REMAINING TO DO
 
-// sanitize login data???
-
 // automatically login when you sign up
 
 // show user status
