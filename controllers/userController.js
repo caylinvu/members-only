@@ -129,7 +129,10 @@ exports.become_member_get = (req, res, next) => {
 // Handle become member on POST
 exports.become_member_post = [
   body('member_password')
-    .custom((value, { req }) => {
+    .isLength({ min: 1 })
+    .withMessage('Password is required')
+    .bail()
+    .custom((value) => {
       return value === process.env.member_pw;
     })
     .withMessage('Incorrect password'),
@@ -167,7 +170,10 @@ exports.become_admin_get = (req, res, next) => {
 // Handle become member on POST
 exports.become_admin_post = [
   body('admin_password')
-    .custom((value, { req }) => {
+    .isLength({ min: 1 })
+    .withMessage('Password is required')
+    .bail()
+    .custom((value) => {
       return value === process.env.admin_pw;
     })
     .withMessage('Incorrect password'),

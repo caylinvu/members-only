@@ -171,8 +171,6 @@ module.exports = app;
 
 // REMAINING TO DO
 
-// require password for admin and member forms
-
 // maybe figure out how to use passport within controller functions?
 
 // STYLE EVERYTHING
