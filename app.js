@@ -182,3 +182,4 @@ app.use(function (err, req, res, next) {
 module.exports = app;
 
 // maybe go back later and add front end validation so that invalid input borders can change while typing
+// maybe optimize for mobile

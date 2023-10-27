@@ -116,6 +116,7 @@ h2,
   max-width: 450px;
   display: flex;
   justify-content: space-between;
+  gap: 15px;
 }
 
 .message-left {
