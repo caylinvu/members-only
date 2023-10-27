@@ -4,7 +4,7 @@ block content
   h1 New message 
   p Hi #{current_user.first_name}
   p What's on your mind?
-  form(action='' method='POST')
+  form.input-form(action='' method='POST')
     div 
       label(for="title") Title 
       input#title(type='text' name='title' value=(message===undefined ? '' : message.title))
@@ -19,4 +19,4 @@ block content
         for error in errors 
           if error.path == 'text'
             span= error.msg 
-    button(type='submit') Submit 
+    button.form-bottom(type='submit') Submit 

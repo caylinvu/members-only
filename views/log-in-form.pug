@@ -2,7 +2,7 @@ extends layout
 
 block content 
   h1 Log in
-  form(action='/log-in' method='POST')
+  form.input-form(action='/log-in' method='POST')
     div
       label(for='username') Email 
       input#username(type='text' name='username' value=(username===undefined ? '' : username))
@@ -17,4 +17,4 @@ block content
         for error in errors 
           if error.path == 'password'
             span= error.msg
-    button(type='submit') Log in 
+    button.form-bottom(type='submit') Log in 

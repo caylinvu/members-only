@@ -2,7 +2,7 @@ extends layout
 
 block content 
   h1 Sign up
-  form(action='' method='POST')
+  form.input-form(action='' method='POST')
     div
       label(for='first_name') First name 
       input#first_name(type='text' name='first_name' value=(user===undefined ? '' : user.first_name))
@@ -18,7 +18,7 @@ block content
           if error.path == 'last_name'
             span= error.msg
     div 
-      label(for='email') Email
+      label(for='email') Email 
       input#email(type='text' name='email' value=(user===undefined ? '' : user.email))
       if errors 
         for error in errors 
@@ -38,4 +38,4 @@ block content
         for error in errors 
           if error.path == 'password_confirmation'
             span= error.msg
-    button(type='submit') Sign up 
+    button.form-bottom(type='submit') Sign up 

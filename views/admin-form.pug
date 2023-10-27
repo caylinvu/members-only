@@ -4,7 +4,7 @@ block content
   h1 Become an admin 
   p Enter the secret password to gain admin status (if not already a member, admin status also grants member status)
   p Only special people can become admins AKA no hints 
-  form(action='' method='POST')
+  form.input-form(action='' method='POST')
     div
       label(for='admin_password') Password 
       input#admin_password(type='password' name='admin_password' value=(admin_pass===undefined ? '' : admin_pass))
@@ -12,4 +12,4 @@ block content
         for error in errors 
           if error.path == 'admin_password'
             span= error.msg
-    button(type='submit') Submit 
+    button.form-bottom(type='submit') Submit 

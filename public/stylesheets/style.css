@@ -1,3 +1,8 @@
+:root {
+  --purple: #b25fff;
+  --red: #ff2424;
+}
+
 body {
   padding: 50px;
   font:
@@ -8,18 +13,56 @@ body {
 }
 
 a {
-  color: #8400ff;
+  color: var(--purple);
 }
 
 textarea {
   font-family: inherit;
 }
 
+button {
+  background-color: var(--purple);
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 5px 10px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
 .delete {
   padding: 0;
+  background-color: white;
 }
 
 .delete img {
   width: 20px;
   vertical-align: middle;
+}
+
+.input-form > div {
+  padding-bottom: 10px;
+}
+
+label {
+  display: block;
+}
+
+span {
+  font-size: 12px;
+  padding-left: 5px;
+  color: var(--red);
+}
+
+input,
+textarea {
+  border: 1px solid black;
+  border-radius: 3px;
+  padding: 2px 3px;
+  width: 185px;
+}
+
+input:has(+ span),
+textarea:has(+ span) {
+  border: 1px solid var(--red);
 }
