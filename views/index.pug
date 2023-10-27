@@ -1,31 +1,40 @@
 extends layout
 
 block content
-  if current_user
-    h1 Hello #{current_user.full_name} 
-    h2 #[em (Membership Status: ]
-      if current_user.admin_status 
-        | #[em admin)]
-      else if current_user.member_status 
-        | #[em member)]
+  div.home-page
+    if current_user
+      h1 Hello #{current_user.full_name} 
+      h2 #[em (Membership Status: ]
+        if current_user.admin_status 
+          | #[em admin)]
+        else if current_user.member_status 
+          | #[em member)]
+        else 
+          | #[em none)]
+      if !current_user.member_status
+        p.pb *Upgrade to member status to see authors and timestamps of messages 
+      if !current_user.admin_status
+        p.pb2 *Upgrade to admin status to delete messages
+    else
+      h1 Welcome to MembersOnly
+      p.p-index Please sign in to post new messages
+    div.message-container
+      each message in messages 
+        div.message-div
+          div.message-left
+            h3 #{message.title}
+            p.msg-txt #{message.text}
+            if current_user && current_user.member_status
+              p by #[strong #{message.user.full_name}]
+            else 
+              p by #[strong Anonymous]
+          div.message-right
+            if current_user && current_user.member_status 
+              p #[em #{message.relative_timestamp}]   
+            if current_user && current_user.admin_status
+              form(action='/delete-message' method='POST')
+                input#message_id(type='hidden' name='message_id' required='true' value=message._id)
+                button.delete(type='submit')
+                  img(src='/images/trash.svg', alt='') 
       else 
-        | #[em none)]
-  else
-    h1 Welcome to MembersOnly
-    p Please sign in to post new messages
-  each message in messages 
-    div 
-      h3 #{message.title}
-      p #{message.text}
-      if current_user && current_user.member_status
-        p by #[strong #{message.user.full_name}]
-        p #[em #{message.relative_timestamp}]
-      else 
-        p by #[strong Anonymous]
-      if current_user && current_user.admin_status 
-        form(action='/delete-message' method='POST')
-          input#message_id(type='hidden' name='message_id' required='true' value=message._id)
-          button.delete(type='submit')
-            img(src='/images/trash.svg', alt='') 
-  else 
-    h3 No messages currently posted
+        h3 No messages currently posted

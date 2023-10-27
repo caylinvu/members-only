@@ -1,22 +1,23 @@
 extends layout 
 
 block content 
-  h1 New message 
-  p Hi #{current_user.first_name}
-  p What's on your mind?
-  form.input-form(action='' method='POST')
-    div 
-      label(for="title") Title 
-      input#title(type='text' name='title' value=(message===undefined ? '' : message.title))
-      if errors 
-        for error in errors 
-          if error.path == 'title'
-            span= error.msg
-    div
-      label(for="text") Message 
-      textarea#text(type='text' name='text' value=(message===undefined ? '' : message.text) rows=3)
-      if errors 
-        for error in errors 
-          if error.path == 'text'
-            span= error.msg 
-    button.form-bottom(type='submit') Submit 
+  div.message-form
+    h1 New message 
+    p.pb Hi #{current_user.first_name},
+    p.pb2 What's on your mind?
+    form.input-form(action='' method='POST')
+      div 
+        label(for="title") Title 
+        input#title(type='text' name='title' value=(message===undefined ? '' : message.title))
+        if errors 
+          for error in errors 
+            if error.path == 'title'
+              span= error.msg
+      div
+        label(for="text") Message 
+        textarea#text(type='text' name='text' value=(message===undefined ? '' : message.text) rows=4)
+        if errors 
+          for error in errors 
+            if error.path == 'text'
+              span= error.msg 
+      button.form-bottom(type='submit') Submit 

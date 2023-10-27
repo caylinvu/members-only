@@ -3,8 +3,14 @@
   --red: #ff2424;
 }
 
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 body {
-  padding: 50px;
+  margin: 0;
   font:
     14px 'Lucida Grande',
     Helvetica,
@@ -52,6 +58,7 @@ span {
   font-size: 12px;
   padding-left: 5px;
   color: var(--red);
+  position: absolute;
 }
 
 input,
@@ -59,10 +66,92 @@ textarea {
   border: 1px solid black;
   border-radius: 3px;
   padding: 2px 3px;
-  width: 185px;
+  width: 300px;
 }
 
 input:has(+ span),
 textarea:has(+ span) {
   border: 1px solid var(--red);
+}
+
+nav {
+  padding: 0px 20px;
+  margin-bottom: 20px;
+  box-shadow: 0px 1px 10px rgb(182, 182, 182);
+}
+
+.nav-txt {
+  font-size: 24px;
+  padding: 20px 0;
+}
+
+h1 {
+  padding: 10px 0px;
+}
+
+h2,
+.p-index {
+  padding-bottom: 20px;
+}
+
+.p-index {
+  font-size: 15px;
+}
+
+.home-page {
+  max-width: 450px;
+}
+
+.message-container {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  padding-bottom: 20px;
+}
+
+.message-div {
+  border: 1px solid black;
+  border-radius: 5px;
+  padding: 10px;
+  max-width: 450px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.message-left {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.message-right {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: end;
+  flex-shrink: 0;
+}
+
+.msg-txt {
+  padding-bottom: 10px;
+}
+
+.pb {
+  font-size: 15px;
+  padding-bottom: 10px;
+}
+
+.pb2 {
+  font-size: 15px;
+  padding-bottom: 15px;
+}
+
+.main-div {
+  display: flex;
+  justify-content: center;
+}
+
+.admin-form,
+.member-form {
+  max-width: 300px;
 }

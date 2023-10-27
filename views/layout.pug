@@ -7,7 +7,7 @@ html
     nav(style='display:flex;justify-content:space-between;align-items:center')
       div 
         a(href='/' style='text-decoration:none')
-          h1 MembersOnly 
+          h1.nav-txt MembersOnly 
       if current_user
         div(style='display:flex;gap:15px')
           a(href='/new-message')
@@ -26,4 +26,6 @@ html
             button(type='button') Sign up 
           a(href='/log-in')
             button(type='button') Log in 
-    block content
+    div.main-div
+      div
+        block content
