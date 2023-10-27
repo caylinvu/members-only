@@ -39,7 +39,7 @@ const limiter = RateLimit({
 });
 app.use(limiter);
 
-app.use(helmet);
+app.use(helmet());
 
 app.use(session({ secret: 'secret', resave: false, saveUninitialized: true }));
 
