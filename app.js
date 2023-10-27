@@ -30,7 +30,7 @@ const app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
-app.use(session({ secret: 'cats', resave: false, saveUninitialized: true }));
+app.use(session({ secret: 'secret', resave: false, saveUninitialized: true }));
 
 passport.use(
   new LocalStrategy(async (username, password, done) => {
@@ -170,7 +170,5 @@ app.use(function (err, req, res, next) {
 module.exports = app;
 
 // REMAINING TO DO
-
-// maybe figure out how to use passport within controller functions?
 
 // STYLE EVERYTHING
