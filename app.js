@@ -13,11 +13,13 @@ require('dotenv').config();
 
 const User = require('./models/user');
 const indexRouter = require('./routes/index');
+const compression = require('compression');
+const helmet = require('helmet');
 
 // mongoose connection setup
 const mongoose = require('mongoose');
 mongoose.set('strictQuery', false);
-const mongoDB = process.env.dev_db_url;
+const mongoDB = process.env.MONGODB_URI || process.env.dev_db_url;
 
 main().catch((err) => console.log(err));
 async function main() {
@@ -29,6 +31,15 @@ const app = express();
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
+
+const RateLimit = require('express-rate-limit');
+const limiter = RateLimit({
+  windowMs: 1 * 60 * 1000,
+  max: 30,
+});
+app.use(limiter);
+
+app.use(helmet);
 
 app.use(session({ secret: 'secret', resave: false, saveUninitialized: true }));
 
@@ -69,6 +80,7 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(compression());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
